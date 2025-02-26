@@ -99,25 +99,3 @@ header {
 .calculate:hover {
     background-color: #777; /* Darker shade on hover */
 }
-
-/* Media Queries for Responsiveness */
-@media (max-width: 600px) {
-    header {
-        height: auto;
-    }
-    #calculator-container {
-        width: 90%; /* Adjust width for smaller screens */
-        height: auto; /* Allow height to adjust based on content */
-        min-height: 500px; /* Set a minimum height */
-    }
-
-    #result {
-        font-size: 28px; /* Slightly reduce font size for smaller screens */
-        padding: 15px; /* Slightly reduce padding for smaller screens */
-    }
-
-    .btn {
-        font-size: 24px; /* Slightly reduce font size for smaller screens */
-        padding: 8px; /* Slightly reduce padding for smaller screens */
-    }
-}
