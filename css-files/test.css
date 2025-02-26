@@ -1,0 +1,123 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', monospace; /* Classic 1900s font */
+    background-color: #121212; /* Dark background for the body */
+    color: white; /* Light text for contrast */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white; /* White text in header */
+}
+
+#calculator-container {
+    display: flex;
+    flex-direction: column;
+    border: 5px solid #444; /* Darker border for dark mode */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 500px; /* Original width */
+    height: 700px; /* Original height */
+    border-radius: 10px;
+    background-color: #2b2b2b; /* Dark background for the calculator */
+    box-sizing: border-box; /* Include padding and border in width/height */
+}
+
+#display-container {
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: #333; /* Dark gray background for display */
+    border: 2px solid #555; /* Slightly lighter border for display */
+}
+
+#result {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    border: 2px solid #555;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 36px;
+    color: white;
+    background-color: #1f1f1f; /* Dark background with light text */
+}
+
+#button-containers {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, auto);
+    gap: 10px;
+    margin: 15px;
+}
+
+.row {
+    display: contents; /* Apply same grid from the parents onto the children */
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 30px;
+    background-color: #444; /* Dark gray for buttons */
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.operator {
+    background-color: #666; /* Lighter gray for operators */
+    color: #fff; /* White text for operators */
+}
+
+.operator:hover {
+    background-color: #888; /* Darker gray for hover effect */
+}
+
+.btn:hover {
+    background-color: #555; /* Lighter shade for regular buttons on hover */
+}
+
+.calculate {
+    grid-column: span 2; /* Take up the remaining space in the row */
+    background-color: #555;
+    color: white;
+    border: 2px solid #444;
+}
+
+.calculate:hover {
+    background-color: #777; /* Darker shade on hover */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+    header {
+        height: auto;
+    }
+    #calculator-container {
+        width: 90%; /* Adjust width for smaller screens */
+        height: auto; /* Allow height to adjust based on content */
+        min-height: 500px; /* Set a minimum height */
+    }
+
+    #result {
+        font-size: 28px; /* Slightly reduce font size for smaller screens */
+        padding: 15px; /* Slightly reduce padding for smaller screens */
+    }
+
+    .btn {
+        font-size: 24px; /* Slightly reduce font size for smaller screens */
+        padding: 8px; /* Slightly reduce padding for smaller screens */
+    }
+}
