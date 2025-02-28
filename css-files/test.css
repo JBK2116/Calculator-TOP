@@ -1,101 +1,178 @@
+/* Overall document styling */
 body {
     height: 100vh;
     margin: 0;
     padding: 0;
     font-family: 'Courier New', monospace; /* Classic 1900s font */
     background-color: #121212; /* Dark background for the body */
-    color: white; /* Light text for contrast */
+    color: #f5f5f5; /* Light text for contrast */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
 }
 
 header {
     text-align: center;
+    margin-top: 20px; /* Ensure space from the top */
     margin-bottom: 20px;
     font-size: 24px;
-    color: white; /* White text in header */
+    color: #f5f5f5; /* Light text in header */
 }
 
+
+/* Calculator container styling */
 #calculator-container {
     display: flex;
     flex-direction: column;
-    border: 5px solid #444; /* Darker border for dark mode */
+    border: 3px solid #333; /* Darker border */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center the container */
     width: 500px; /* Original width */
+    max-width: 90vw; /* Responsive width */
     height: 700px; /* Original height */
-    border-radius: 10px;
-    background-color: #2b2b2b; /* Dark background for the calculator */
+    max-height: 90vh; /* Responsive height */
+    border-radius: 16px;
+    background-color: #1e1e1e; /* Dark background for the calculator */
     box-sizing: border-box; /* Include padding and border in width/height */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Soft shadow for depth */
+    overflow: hidden; /* Keep contents inside rounded corners */
 }
 
+/* Display container styling */
 #display-container {
     width: 100%;
     padding: 25px;
     text-align: center;
     box-sizing: border-box;
-    background-color: #333; /* Dark gray background for display */
-    border: 2px solid #555; /* Slightly lighter border for display */
+    background-color: #1e1e1e; /* Match calculator body */
 }
 
 #result {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end; /* Right-align the result */
     align-items: center;
-    border: 2px solid #555;
     padding: 20px;
     width: 100%;
+    height: 100px; /* Fixed height for display */
     box-sizing: border-box;
-    font-size: 36px;
+    font-size: 46px;
+    font-weight: 300; /* Lighter font weight */
     color: white;
-    background-color: #1f1f1f; /* Dark background with light text */
+    background-color: #2a2a2a; /* Slightly lighter than body */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    white-space: nowrap; /* Keep all text on one line */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for depth */
 }
 
+/* Button containers styling */
 #button-containers {
     flex-grow: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, auto);
-    gap: 10px;
-    margin: 15px;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 15px; 
+    margin: 20px; 
 }
 
 .row {
     display: contents; /* Apply same grid from the parents onto the children */
 }
 
+/* Button styling */
 .btn {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     font-size: 30px;
-    background-color: #444; /* Dark gray for buttons */
-    border-radius: 5px;
+    background-color: #333333; /* Dark gray for buttons */
+    color: white; /* White text */
+    border-radius: 50%; /* Perfect circles */
     box-sizing: border-box;
-    transition: background-color 0.3s ease;
+    cursor: pointer; /* Show pointer cursor */
+    user-select: none; /* Prevent text selection */
+    transition: all 0.15s ease-in-out; /* Smooth transition for all properties */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
+/* Number buttons */
+.number {
+    background-color: #444444; /* Medium gray for numbers */
+}
+
+/* Operator buttons */
 .operator {
-    background-color: #666; /* Lighter gray for operators */
-    color: #fff; /* White text for operators */
-}
-
-.operator:hover {
-    background-color: #888; /* Darker gray for hover effect */
-}
-
-.btn:hover {
-    background-color: #555; /* Lighter shade for regular buttons on hover */
-}
-
-.calculate {
-    grid-column: span 2; /* Take up the remaining space in the row */
-    background-color: #555;
+    background-color: #ff9f0a; /* Vibrant orange for operators */
     color: white;
-    border: 2px solid #444;
+    font-weight: 900;
 }
 
-.calculate:hover {
-    background-color: #777; /* Darker shade on hover */
+/* All Clear and Clear buttons */
+.allclear, .clear {
+    background-color: #a5a5a5; /* Light gray */
+    color: #000; /* Black text */
+}
+
+/* Calculate button (equals) */
+.calculate {
+    grid-column: span 1; 
+    background-color: #ff9f0a; /* Same as operators */
+    color: white;
+    border-radius: 50%; /* Keep consistent with other buttons */
+}
+
+/* Hover effects */
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    filter: brightness(1.2); /* Brighten on hover */
+}
+
+/* Active/click effects */
+.btn:active {
+    transform: translateY(1px); /* Press down effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow when clicked */
+    opacity: 0.9; /* Slight opacity change */
+}
+
+.btn.decimal {
+    background-color: #444444; /* Match number buttons */
+}
+
+/* Bottom row buttons */
+.bottom-row .btn {
+    border-radius: 50%; /* Keep consistent */
+}
+
+/* Specific styling for the zero button */
+.bottom-row .btn:first-child {
+    grid-column: span 2; 
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+    #calculator-container {
+        width: 95vw; /* Full width on small screens */
+        height: auto; /* Auto height */
+        aspect-ratio: 2/3; /* Maintain aspect ratio */
+    }
+    
+    .btn {
+        font-size: 24px; /* Smaller font on small screens */
+    }
+    
+    #result {
+        font-size: 36px; /* Smaller result font on small screens */
+        height: 80px; /* Smaller height */
+    }
+}
+
+@media (max-height: 800px) {
+    #calculator-container {
+        height: 80vh;
+    }
 }
