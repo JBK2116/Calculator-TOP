@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="image-files/calculator-favicon.png" type="image/png">
         <link rel="stylesheet" href="css-files/test.css">
+        <script src="js-files/main.js" defer></script>
         <title>Elementary Calculator</title>
     </head>
     <body>
@@ -18,10 +19,10 @@
                 </div>
                 <section id="button-containers">
                     <div class="controls row">
-                        <div class="btn allclear" title="All Clear">AC</div>
-                        <div class="btn clear" title="Clear">C</div>
+                        <div class="btn toggleClear" title="All Clear">AC</div>
+                        <div class="btn plus-minus" title="Plus/Minus (±)">&plusmn;</div>
                         <div class="btn remainder operator" title="Remainder">%</div>
-                        <div class="btn division operator" title="Divide">÷</div>
+                        <div class="btn division operator" title="Division">÷</div>
                     </div>
                     <div class="number-one row">
                         <div class="number btn 7">7</div>
@@ -42,7 +43,7 @@
                         <div class="btn multiplication operator" title="Multiplication">×</div>
                     </div>
                     <div class="bottom-row row">
-                        <div class="btn 0">0</div>
+                        <div class="number btn 0">0</div>
                         <div class="number btn decimal" title="Decimal">.</div>
                         <div class="btn evaluate" title="Evaluate">=</div>
                     </div> 
