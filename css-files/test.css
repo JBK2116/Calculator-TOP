@@ -9,41 +9,48 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally */
+    overflow: hidden; /* Prevent scrolling */
 }
 
 header {
     text-align: center;
-    margin-top: 20px; /* Ensure space from the top */
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #f5f5f5; /* Light text in header */
+    margin: 20px 0;
+    width: 100%;
 }
 
+#header {
+    font-size: clamp(18px, 4vw, 40px); /* Responsive font size */
+    color: #f5f5f5; /* Light text in header */
+    margin: 0; /* Remove default margin */
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
 
 /* Calculator container styling */
 #calculator-container {
     display: flex;
     flex-direction: column;
     border: 3px solid #333; /* Darker border */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the container */
-    width: 500px; /* Original width */
-    max-width: 90vw; /* Responsive width */
-    height: 700px; /* Original height */
-    max-height: 90vh; /* Responsive height */
+    width: min(500px, 90vw); /* Responsive width */
+    height: min(700px, 80vh); /* Responsive height */
     border-radius: 16px;
     background-color: #1e1e1e; /* Dark background for the calculator */
     box-sizing: border-box; /* Include padding and border in width/height */
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Soft shadow for depth */
     overflow: hidden; /* Keep contents inside rounded corners */
+    position: relative; /* Changed from absolute positioning */
 }
 
 /* Display container styling */
 #display-container {
     width: 100%;
-    padding: 25px;
+    padding: clamp(15px, 3vw, 25px);
     text-align: center;
     box-sizing: border-box;
     background-color: #1e1e1e; /* Match calculator body */
@@ -55,7 +62,7 @@ header {
     flex-direction: column; /* Stack the displays vertically */
     justify-content: flex-end; /* Bottom align within container */
     width: 100%;
-    height: 100px; /* Fixed height for display area */
+    height: clamp(80px, 10vh, 100px); /* Responsive height */
     box-sizing: border-box;
     background-color: #2a2a2a; /* Slightly lighter than body */
     border-radius: 8px; /* Rounded corners */
@@ -68,9 +75,9 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 5px 20px; /* Match horizontal padding with main result */
-    height: 33px;
-    font-size: 20px; /* Smaller font size */
+    padding: 5px clamp(10px, 3vw, 20px); /* Responsive padding */
+    height: 33%;
+    font-size: clamp(14px, 3vw, 20px); /* Responsive font size */
     font-weight: 300; /* Lighter font weight */
     color: rgba(255, 255, 255, 0.7); /* Slightly dimmer than main result */
     text-overflow: ellipsis;
@@ -83,9 +90,9 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 20px 10px; /* More bottom padding */
-    height: 67px; /* Remaining height */
-    font-size: 46px;
+    padding: 0 clamp(10px, 3vw, 20px) clamp(5px, 2vw, 10px); /* Responsive padding */
+    height: 67%;
+    font-size: clamp(28px, 6vw, 46px); /* Responsive font size */
     font-weight: 300;
     color: white;
     text-overflow: ellipsis;
@@ -95,12 +102,12 @@ header {
 
 /* Button containers styling */
 #button-containers {
-    flex-grow: 1;
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    gap: 15px; 
-    margin: 20px; 
+    gap: clamp(8px, 2vw, 15px); /* Responsive gap */
+    margin: clamp(10px, 3vw, 20px); /* Responsive margin */
 }
 
 .row {
@@ -112,8 +119,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    font-size: 30px;
+    font-size: clamp(18px, 4vw, 30px); /* Responsive font size */
     background-color: #333333; /* Dark gray for buttons */
     color: white; /* White text */
     border-radius: 50%; /* Perfect circles */
@@ -122,6 +128,8 @@ header {
     user-select: none; /* Prevent text selection */
     transition: all 0.15s ease-in-out; /* Smooth transition for all properties */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 100%;
+    height: 100%; /* Changed from auto height */
 }
 
 /* Number buttons */
@@ -137,24 +145,35 @@ header {
 }
 
 /* All Clear and Clear buttons */
-.allclear, .clear {
+.toggleClear {
     background-color: #a5a5a5; /* Light gray */
     color: #000; /* Black text */
 }
 
-/* Calculate button (equals) */
-.calculate {
-    grid-column: span 1; 
-    background-color: #ff9f0a; /* Same as operators */
-    color: white;
-    border-radius: 50%; /* Keep consistent with other buttons */
+/* Plus/Minus button */
+.plus-minus {
+    background-color: #a5a5a5; /* Light gray */
+    color: #000; /* Black text */
 }
 
-/* Hover effects */
-.btn:hover {
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-    filter: brightness(1.2); /* Brighten on hover */
+/* Remainder/percentage button */
+.remainder {
+    background-color: #ff9f0a; /* Same as operators */
+}
+
+/* Calculate button (equals) */
+.evaluate {
+    background-color: #ff9f0a; /* Same as operators */
+    color: white;
+}
+
+/* Hover effects - only apply on devices that support hover */
+@media (hover: hover) {
+    .btn:hover {
+        transform: translateY(-2px); /* Slight lift effect */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        filter: brightness(1.2); /* Brighten on hover */
+    }
 }
 
 /* Active/click effects */
@@ -164,40 +183,81 @@ header {
     opacity: 0.9; /* Slight opacity change */
 }
 
-.btn.decimal {
+.decimal {
     background-color: #444444; /* Match number buttons */
 }
 
-/* Bottom row buttons */
-.bottom-row .btn {
-    border-radius: 50%; /* Keep consistent */
-}
-
-/* Specific styling for the zero button */
+/* Special styling for zero button */
 .bottom-row .btn:first-child {
-    grid-column: span 2; 
+    grid-column: span 2; /* Make zero button span 2 columns */
+    border-radius: 50px; /* Pill shape for zero */
 }
 
 /* Media queries for responsiveness */
-@media (max-width: 600px) {
-    #calculator-container {
-        width: 95vw; /* Full width on small screens */
-        height: auto; /* Auto height */
-        aspect-ratio: 2/3; /* Maintain aspect ratio */
+@media (max-width: 400px) {
+    #button-containers {
+        gap: 8px; /* Smaller gap on very small screens */
     }
     
     .btn {
-        font-size: 24px; /* Smaller font on small screens */
+        font-size: 18px; /* Smaller font on very small screens */
     }
     
     #result {
-        font-size: 36px; /* Smaller result font on small screens */
-        height: 80px; /* Smaller height */
+        font-size: 28px; /* Smaller result font on very small screens */
     }
 }
 
-@media (max-height: 800px) {
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    #calculator-container {
+        flex-direction: row; /* Side-by-side layout for landscape */
+        height: 80vh;
+        max-height: 400px;
+        width: 90vw;
+        max-width: 700px;
+    }
+    
+    #display-container {
+        width: 40%;
+        height: 100%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .results {
+        height: 80%;
+    }
+    
+    #button-containers {
+        width: 60%;
+        margin: 10px;
+    }
+    
+    .btn {
+        font-size: clamp(14px, 3vh, 24px);
+    }
+}
+
+/* For very tall and narrow screens (like iPhone 5) */
+@media (max-width: 320px) and (min-height: 568px) {
     #calculator-container {
         height: 80vh;
+    }
+}
+
+/* For extra small devices */
+@media (max-width: 280px) {
+    #button-containers {
+        gap: 5px;
+    }
+    
+    .btn {
+        font-size: 16px;
+    }
+    
+    #header {
+        font-size: 16px;
     }
 }
