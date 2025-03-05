@@ -49,23 +49,48 @@ header {
     background-color: #1e1e1e; /* Match calculator body */
 }
 
-#result {
+/* Container for both displays */
+.results {
     display: flex;
-    justify-content: flex-end; /* Right-align the result */
-    align-items: center;
-    padding: 20px;
+    flex-direction: column; /* Stack the displays vertically */
+    justify-content: flex-end; /* Bottom align within container */
     width: 100%;
-    height: 100px; /* Fixed height for display */
+    height: 100px; /* Fixed height for display area */
     box-sizing: border-box;
-    font-size: 46px;
-    font-weight: 300; /* Lighter font weight */
-    color: white;
     background-color: #2a2a2a; /* Slightly lighter than body */
     border-radius: 8px; /* Rounded corners */
-    overflow: hidden; /* Prevent overflow */
-    text-overflow: ellipsis; /* Add ellipsis if text overflows */
-    white-space: nowrap; /* Keep all text on one line */
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for depth */
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Previous result display (smaller, above main result) */
+#previous-result {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 20px; /* Match horizontal padding with main result */
+    height: 33px;
+    font-size: 20px; /* Smaller font size */
+    font-weight: 300; /* Lighter font weight */
+    color: rgba(255, 255, 255, 0.7); /* Slightly dimmer than main result */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Main result display */
+#result {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px 10px; /* More bottom padding */
+    height: 67px; /* Remaining height */
+    font-size: 46px;
+    font-weight: 300;
+    color: white;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* Button containers styling */
