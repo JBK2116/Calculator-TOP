@@ -12,6 +12,7 @@ const HOLD_DURATION = 1000;  // 1000ms -> 1 second, used for clearOnLongHold Fun
 
 // Variables for calculator operations
 let currentOperator = '';
+let usedOperator = '';
 let firstNumberValue = '';
 let secondNumberValue = '';
 let operationResult = 0;
@@ -32,15 +33,18 @@ function main() {
 
 // Format calculation results consistently
 function formatResult(result) {
-    result = parseFloat(result.toPrecision(resultContainerWidth));
-    if (result > -1 && result < 1) {
-        result = parseFloat(result.toFixed(resultContainerWidth));
+    let maxDigits = Math.max(8, Math.min(20, resultContainerWidth / 10));
+    // Convert result to a reasonable number of digits
+    if (Math.abs(result) >= 1e12) {
+        // Use scientific notation for very large numbers
+        return result.toExponential(Math.max(1, Math.min(5, maxDigits - 5)));
+    } else if (Math.abs(result) < 1) {
+        // For smaller numbers, keep a reasonable number of decimal places
+        return parseFloat(result.toFixed(13)).toString();
+    } else {
+        // For normal numbers, use toPrecision to limit total digits
+        return parseFloat(result.toPrecision(15)).toString();
     }
-    // Handle large numbers to prevent scientific notation
-    if (Math.abs(result) > 1e12) {
-        return result.toExponential(5);
-    }
-    return String(result);
 }
 
 // This function calls a main calculation function
@@ -57,7 +61,7 @@ function calculateResult() {
     const firstNumber = parseFloat(firstNumberValue);
     const secondNumber = parseFloat(secondNumberValue);
     
-    switch(currentOperator) {
+    switch(usedOperator) {
         case '+':
             operationResult = add(firstNumber, secondNumber);
             break;
@@ -93,7 +97,7 @@ function multiply(number1, number2) {
 
 function divide(number1, number2) {
     if (number2 === 0) {
-        return 'Dividing by zero: because who needs limits, right?';
+        return 'Error';
     }
     return formatResult(number1 / number2);
 }
@@ -111,17 +115,24 @@ function setupadaptiveClearOperator() {
 function setUpOperators() {
     operators.forEach((operator) => {
         operator.addEventListener("click", () => {
-            let updatedOpValue = operator.textContent;
-            if (updatedOpValue === '÷') updatedOpValue = '/';
-            if (updatedOpValue === '×') updatedOpValue = '*';
+            // Store the displayed operator symbol for UI
+            let displaySymbol = operator.textContent;
             
-            if (firstNumberValue !== '' && displayOperations.textContent !== '0') {
-                currentOperator = updatedOpValue;
-                displayOperations.textContent += operator.textContent;
-            } else if (currentOperator !== '' && secondNumberValue !== '') {
-                calculateResult();
-                currentOperator = updatedOpValue;
-                displayOperations.textContent += operator.textContent;
+            // Convert to functional operator for calculations
+            let functionalOperator = displaySymbol;
+            if (functionalOperator === '÷') functionalOperator = '/';
+            if (functionalOperator === '×') functionalOperator = '*';
+            
+            if (firstNumberValue !== '') {
+                // If we already have a complete expression (num1 op num2), calculate it first
+                if (currentOperator !== '' && secondNumberValue !== '') {
+                    calculateResult();
+                }
+                
+                // Set the new operator for the next calculation
+                currentOperator = displaySymbol;
+                usedOperator = functionalOperator;
+                displayOperations.textContent = firstNumberValue + displaySymbol;
             }
         });
     });
@@ -208,6 +219,16 @@ function handleDecimalInput(number) {
 }
 
 function handleNumberInput(number) {
+    // Check if we're starting a new calculation after a result
+    if (DisplayOperationsPreviousResult.textContent !== '' && 
+        currentOperator === '' && secondNumberValue === '' &&
+        !firstNumberValue.includes('.')) {
+        // Clear the previous result to start a new calculation
+        firstNumberValue = '';
+        operationResult = 0;
+        DisplayOperationsPreviousResult.textContent = '';
+    }
+    
     // Handle regular numbers
     if (currentOperator === '') {
         // If display shows only '0', replace it with the new number
@@ -331,20 +352,36 @@ function manipulateClearOperator() {
 
 //This function updates the display after each calculation and the appropriate variables
 function handlePostCalculation(result) {
-    DisplayOperationsPreviousResult.textContent = displayOperations.textContent + ' =';
-    displayOperations.textContent = result;
-    firstNumberValue = result;
-    secondNumberValue = '';
-    currentOperator = '';
+    if (result === "Error") {
+        DisplayOperationsPreviousResult.textContent = displayOperations.textContent + ' =';
+        displayOperations.textContent = "Error"
+    }
+    else {
+        DisplayOperationsPreviousResult.textContent = displayOperations.textContent + ' =';
+        displayOperations.textContent = result;
+        firstNumberValue = result;
+        secondNumberValue = '';
+        currentOperator = '';
+    }
 }
 
 // This function updates the value that stores the width of the display operation results container
 function updateResultContainerWidth() {
+    // Initial calculation of container width
+    resultContainerWidth = Math.floor(parseFloat(window.getComputedStyle(displayOperations).width));
+    
+    // Set a reasonable default if the calculation fails or gives an unreasonable value
+    if (isNaN(resultContainerWidth) || resultContainerWidth < 1) {
+        resultContainerWidth = 100; // Default reasonable width
+    }
+    
     window.addEventListener("resize", () => {
+        // Update width when window resizes
         resultContainerWidth = Math.floor(parseFloat(window.getComputedStyle(displayOperations).width));
-        // Reset the value to 20 to ensure that toPrecision and toFixed work properly
-        if (resultContainerWidth > 20) {
-            resultContainerWidth = 20;
+        
+        // Ensure value stays reasonable
+        if (isNaN(resultContainerWidth) || resultContainerWidth < 1) {
+            resultContainerWidth = 100;
         }
     });
 }
